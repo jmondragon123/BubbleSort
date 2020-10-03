@@ -4,7 +4,7 @@ class Bar {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.state = -1; // -1 is for doing nothing, 0 is for comparison and 1 is for sorted
+        this.state = -1; // -1 is for doing nothing, 0 is for currently active, 1 is for swapping, 2 is for sorted
         this.oldX = 0;
         this.oldHeight = 0;
       }
@@ -23,7 +23,7 @@ class Bar {
     getHeight() {
         return this.height;
     }
-    
+
     getState() {
         return this.state;
     }
@@ -32,7 +32,7 @@ class Bar {
         this.oldX = this.x;
         this.x = newX;
     }
-    
+
     setY(newY) {
         this.y = newY;
     }
@@ -53,7 +53,7 @@ class Bar {
         else if (currentState == 0) {
             return "#abcdef"
         }
-        
+
         else if (currentState == 1) {
             return "#fe4164"
         }
@@ -85,7 +85,7 @@ class Bar {
     }
 
 
-      
+
 }
 
 
@@ -112,29 +112,17 @@ function set_active(bar1, bar2, newState) {
     bar2.updateState(newState);
 }
 
-function set_deactive(bar1, bar2, newState) {
-    bar1.updateState(newState);
-    bar2.updateState(newState);
-}
-
-var checks = 0;
 
 function slowSwap() {
-    // This will check if we need to swap the bars
-    if (n >= randomNumArray.length){
-        randomNumArray[k].updateState(2);
-        clearInterval(slowly)
-        return
-    }
-
     if (checks == 0){
         checks = 1;
         if (randomNumArray[k].getState() == -1 && randomNumArray[k+1].getState() == -1){
             set_active(randomNumArray[k], randomNumArray[k+1],0)
-            
+
             return;
         }
     }
+
     else if (checks == 1) {
         checks = 2;
         if (randomNumArray[k].getHeight() > randomNumArray[k+1].getHeight()){
@@ -148,7 +136,7 @@ function slowSwap() {
     else{
         checks = 0
         if(n < randomNumArray.length){
-            set_deactive(randomNumArray[k], randomNumArray[k+1],-1)
+            set_active(randomNumArray[k], randomNumArray[k+1],-1)
             k = k+1
             if(k >= randomNumArray.length-n-1){
                 randomNumArray[k].updateState(2);
@@ -159,20 +147,20 @@ function slowSwap() {
         }
         else {
             randomNumArray[k].updateState(2);
+            document.getElementById("quickswap").disabled = false;
             clearInterval(slowly)
         }
     }
 }
-var slowly;
+
 
 function runSlowSwap() {
     n = 0;
     k = 0;
+    document.getElementById("quickswap").disabled = true;
     draw_Bars()
     updateList()
     slowly = setInterval(slowSwap,300)
-    console.log("We are done")
-    
 }
 
 function quickSwap() {
@@ -181,12 +169,12 @@ function quickSwap() {
     for (var i = 0; i < randomNumArray.length; i++){
         for (var j = 0; j < randomNumArray.length-1-i; j++) {
             // This is the comparing state
-            
+
             if (randomNumArray[j].getHeight() > randomNumArray[j+1].getHeight()){
                 // This would be the Swapping state
                 swap_Bar(randomNumArray[j], randomNumArray[j+1]);
                 swap_Array_Elements(j,j+1);
- 
+
             }
         }
         //This is the sorted state
@@ -209,12 +197,15 @@ function fix_dpi() {
     canvas.setAttribute('width', style_width * dpi);
 }
 
+// Generates a random number from 70 to 500
 function randomNumberGenerator() {
     return num = Math.floor(Math.random() * 500) + 70;
 }
 
+// Creates the initial image and fills in our two arrays
 function draw_Bars() {
     let barAmount = document.getElementById("randomNumberAmount").value
+
     updateList()
     fix_dpi()
       randNumArray = [];
@@ -233,23 +224,6 @@ function draw_Bars() {
 
       }
 }
-
-
-
-//get DPI
-let dpi = window.devicePixelRatio;
-//get canvas
-let canvas = document.getElementById('myCanvas');
-//get context
-let ctx = canvas.getContext('2d');
-let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
-let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
-var randomNumArray = [];
-var randNumArray = []
-var n = 0;
-var k = 0;
-updateList()
-
 
 function handleEvent(oEvent) {
     var oTextbox = document.getElementById("randomNumberAmount");
@@ -274,3 +248,21 @@ function showList() {
         x.style.display = "none"
     }
 }
+
+
+//get DPI
+let dpi = window.devicePixelRatio;
+//get canvas
+let canvas = document.getElementById('myCanvas');
+//get context
+let ctx = canvas.getContext('2d');
+let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
+let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
+
+var randomNumArray = [];
+var randNumArray = []
+var n = 0;
+var k = 0;
+var slowly;
+var checks = 0;
+updateList()
