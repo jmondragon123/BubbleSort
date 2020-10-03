@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta charset="UTF-8"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Bubble Sort</title>
+</head>
+    <body>
+        <header>
+        <h1>Bubble Sort Bar Visualization</h1>
+        <h2>The bubble sort algorithm is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.</h2>
+        <div class="centerControls">
+            <label>Please enter a number for list size </label> 
+            <input type="text" id="randomNumberAmount" onkeyup="handleEvent(event)"><br>
+            <!-- <input type="button" id="submit" onclick="draw_Bars()" value="Submit"> -->
+            <input type="button" id="quickswap" onclick="quickSwap()" value="Quick Swap">
+            <input type="button" id="slowswap" onclick="runSlowSwap()" value="Slow Swap">
+            <input type="button" id="listview" onclick="showList()" value="View List">
+        </div>
+        <div id="listViews">
+            <label>This is our random number list unsorted: </label>
+            <label id ="randomunSortedList"></label><br>
+            <label>This is our random number list sorted: </label>
+            <label id ="randomSortedList"></label>
+        </div>
+        <br><br>
+        </header>
+
+       
+        <main>
+            <canvas id="myCanvas"></canvas>
+        </main>
+        <footer>
+
+        </footer>
+        <script src="script.js"></script>
+    </body>
+</html>
