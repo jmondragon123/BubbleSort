@@ -240,6 +240,7 @@ function updateList() {
 
 function showList() {
     updateList()
+
     var x = document.getElementById("listViews");
     if (x.style.display === "none") {
         x.style.display = "block";

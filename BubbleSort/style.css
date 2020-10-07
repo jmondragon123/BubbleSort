@@ -25,12 +25,12 @@ header input[type=button] {
     margin: 5px;
     padding: 10px;
     border-radius: 12px;
-    
+
 }
 
 header input[type=button]:hover {
     background: cornflowerblue;
-    
+
 }
 
 #listViews {
